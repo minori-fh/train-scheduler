@@ -100,8 +100,8 @@ database.ref().on("child_added", function(childSnapshot) {
     "</td><td id = 'new-train'>" + untilNext +
     "</td></tr>")
 
-
-
-})
+}, function(errorObject) {
+    console.log("Errors handled: " + errorObject.code);
+});
 
 }); //END document ready
