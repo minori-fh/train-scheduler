@@ -1,0 +1,25 @@
+#main-page {
+    width: 100vw; 
+    height: 100vh; 
+    max-width: 100%; 
+}
+
+.card {
+    width: 1000px; 
+    margin: 0 auto; 
+    float: none; 
+    margin-top: 50px; 
+    margin-bottom: 10px; 
+}
+
+#current-schedule {
+  height: 500px; 
+}
+
+td {
+    padding-top: 10px; 
+}
+
+#current-schedule-header {
+    text-align: center; 
+}
