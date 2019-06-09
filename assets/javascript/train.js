@@ -72,6 +72,9 @@ database.ref().on("child_added", function(childSnapshot) {
     //find untilNext
     untilNext = frequency - remainder
 
+    //find nextTrain
+    nextTrain = moment().add(untilNextMinutes,"m").format("HH:mm")
+
 
 
 })
