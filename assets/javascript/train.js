@@ -29,8 +29,10 @@ var database = firebase.database();
 //Event handler: on click of submit button
 $("#submit").on("click",function(){
     event.preventDefault();
+    $("input").val("")
 
-    trainNameInput = $("#train-name").val().trim()
+
+    trainNameInput = $("#train-name").val()
     destinationInput = $("#destination").val().trim()
     firstTrainInput = $("#first-train").val().trim()
     frequencyInput = $("#frequency").val().trim()
