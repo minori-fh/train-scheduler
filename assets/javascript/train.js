@@ -58,9 +58,12 @@ database.ref().on("child_added", function(childSnapshot) {
     var untilNext = 0 //frequency - remainder                         
     var nextTrain = "" //timeAdded +                                 
                                                                    
-
     console.log("current time: " + currentTime)
     console.log("first train: " + firstTrain)
+
+    //find the difference in minutes 
+    difference = moment(currentTime, "HH:mm").minutes() - moment(firstTrain, "HH:mm").minutes()
+    console.log("difference: " + difference)
 
 })
 
