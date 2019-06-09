@@ -75,6 +75,14 @@ database.ref().on("child_added", function(childSnapshot) {
     //find nextTrain
     nextTrain = moment().add(untilNextMinutes,"m").format("HH:mm")
 
+    //Append values to html DOM
+    $("#current-schedule-table").append("<tr><td id = 'new-train'>" + childSnapshot.val().trainName +
+    "</td><td id = 'new-train'>" + childSnapshot.val().destination +
+    "</td><td id = 'new-train'>" + childSnapshot.val().frequency +
+    "</td><td id = 'new-train'>" + nextTrain +
+    "</td><td id = 'new-train'>" + untilNext +
+    "</td></tr>")
+
 
 
 })
