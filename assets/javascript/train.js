@@ -25,4 +25,24 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
+
+//Event handler: on click of submit button
+$("#submit").on("click",function(){
+    event.preventDefault();
+
+    trainNameInput = $("#train-name").val().trim()
+    destinationInput = $("#destination").val().trim()
+    firstTrainInput = $("#first-train").val().trim()
+    frequencyInput = $("#frequency").val().trim()
+
+    // Code for the push
+    database.ref().push({
+        trainName : trainNameInput,
+        destination : destinationInput,
+        firstTrain : firstTrainInput,
+        frequency : frequencyInput,
+        timeAdded : firebase.database.ServerValue.TIMESTAMP
+    });
+});
+
 }); //END document ready
