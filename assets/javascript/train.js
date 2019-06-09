@@ -98,7 +98,6 @@ database.ref().on("child_added", function(childSnapshot) {
             } else if (ftMinutes === ctMinutes){
                 untilNext = (untilNextHours + "hour(s)")
             };
-    
             
         } else if (ftHour < ctHour){ //if the first train is before the current time
             nextTrain = moment().add(untilNextMinutes,"minutes").format("hh:mm A")
@@ -118,7 +117,6 @@ database.ref().on("child_added", function(childSnapshot) {
             }   
         } 
     }
-
 
     //Append values to html DOM
     $("#current-schedule-table").append("<tr><td id = 'new-train'>" + childSnapshot.val().trainName +
