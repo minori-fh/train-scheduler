@@ -45,4 +45,23 @@ $("#submit").on("click",function(){
     });
 });
 
+// Firebase watcher + initial loader 
+database.ref().on("child_added", function(childSnapshot) {
+
+    //Create local variables
+    var currentTime = moment().format("HH:mm")
+    var timeAdded = childSnapshot.val().timeAdded //from Firebase   
+    var frequency = childSnapshot.val().frequency //from Firebase     
+    var firstTrain = moment(childSnapshot.val().firstTrain, "hh:mm A").format("HH:mm") 
+    var difference = 0 //difference = currentTime - firstTrain       
+    var remainder = 0 // remainder = difference % frequency       
+    var untilNext = 0 //frequency - remainder                         
+    var nextTrain = "" //timeAdded +                                 
+                                                                   
+
+    console.log("current time: " + currentTime)
+    console.log("first train: " + firstTrain)
+
+})
+
 }); //END document ready
