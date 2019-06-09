@@ -20,6 +20,32 @@ td {
     padding-top: 10px; 
 }
 
+th {
+    margin-left: 10px; 
+}
+
 #current-schedule-header {
     text-align: center; 
+}
+
+#add-train {
+    height: 480px; 
+}
+  
+.form-control {
+width: 975px; 
+margin: 0 auto; 
+float: none; 
+}
+  
+.btn {
+margin-left: 12.5px; 
+}
+   
+label {
+margin-left: 17px; 
+}
+  
+#train-name-label {
+margin-top: 10px; 
 }
