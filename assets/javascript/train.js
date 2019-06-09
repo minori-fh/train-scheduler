@@ -29,8 +29,6 @@ var database = firebase.database();
 //Event handler: on click of submit button
 $("#submit").on("click",function(){
     event.preventDefault();
-    $("input").val("")
-
 
     trainNameInput = $("#train-name").val()
     destinationInput = $("#destination").val().trim()
@@ -51,8 +49,7 @@ $("#submit").on("click",function(){
 database.ref().on("child_added", function(childSnapshot) {
 
     //Create local variables
-    var currentTime = moment().format("HH:mm")
-    var timeAdded = childSnapshot.val().timeAdded //from Firebase   
+    var currentTime = moment().format("HH:mm")  
     var frequency = childSnapshot.val().frequency //from Firebase     
     var firstTrain = moment(childSnapshot.val().firstTrain, "hh:mm A").format("HH:mm") 
     var difference = 0 //difference = currentTime - firstTrain       
@@ -72,35 +69,54 @@ database.ref().on("child_added", function(childSnapshot) {
     console.log("remainder: " + remainder)
 
     //find nextTrain time and time until the nextTrain 
-    ftHour = moment(firstTrain, "HH:mm").hours()
-    ftMinutes = moment(firstTrain,"HH:mm").minutes()
+    ftHour = moment(firstTrain, "HH:mm A").hours()
+    ftMinutes = moment(firstTrain,"HH:mm A").minutes()
+    ftA = moment(firstTrain, "HH:mm A").format("A")
     console.log("ft hour " + ftHour)
     console.log("ft minutes " + ftMinutes)
+    console.log("ft A " + ftA)
 
     ctHour = moment().hours()
     ctMinutes = moment().minutes()
+    ctA = moment(currentTime, "HH:mm A").format("A")
+    console.log("ct A " + ctA)
     console.log("ct hour " + ctHour)
     console.log("ct minutes " + ctMinutes)
 
     untilNextMinutes = frequency - remainder
     untilNextHours = ftHour - ctHour
     console.log(untilNextMinutes)
-
-    if (ftHour > ctHour){ //if the first train is after the current time
-        nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
-
-        if (ftMinutes < ctMinutes && ftMinutes === 0){
-        untilNext = ((untilNextHours - 1) + " hours(s) " + (60 - ctMinutes) + " min(s) ")
-        } else if (ftMinutes < ctMinutes && ftMinutes > 0){
-        untilNext = ((untilNextHours - 1) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
-        } else if (ftMinutes === ctMinutes){
-        untilNext = (untilNextHours + "hour(s)")
-        };
-
-        
-    } else if (ftHour < ctHour){ //if the first train is before the current time
-        nextTrain = moment().add(untilNextMinutes,"minutes").format("hh:mm A")
-        untilNext = (frequency - remainder) + " min(s)"
+    
+    if (ctA === "PM" && ftA === "PM"){
+        if (ftHour > ctHour){ //if the first train is after the current time
+            nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
+    
+            if (ftMinutes < ctMinutes && ftMinutes === 0){
+                untilNext = ((untilNextHours - 1) + " hours(s) " + (60 - ctMinutes) + " min(s) ")
+            } else if (ftMinutes < ctMinutes && ftMinutes > 0){
+                untilNext = ((untilNextHours - 1) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
+            } else if (ftMinutes === ctMinutes){
+                untilNext = (untilNextHours + "hour(s)")
+            };
+    
+            
+        } else if (ftHour < ctHour){ //if the first train is before the current time
+            nextTrain = moment().add(untilNextMinutes,"minutes").format("hh:mm A")
+            untilNext = (frequency - remainder) + " min(s)"
+        }
+    } else if (ctA === "PM" && ftA === "AM"){
+        console.log("wtf")
+        if (ftHour < ctHour){
+            nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
+            
+            if (ftMinutes === ctMinutes){
+                untilNext = ((ftHour + (24 - ctHour)) + " hour(s) ")
+            } else if (ftMinutes < ctMinutes && ftMinutes === 0){
+                untilNext = ((ftHour + (24 - ctHour - 1)) + " hour(s) " + (60 - ctMinutes) + " min(s) ")
+            } else if (ftMinutes < ctMinutes && ftMinutes > 0){
+                untilNext = ((ftHour + (24 - ctHour - 1)) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
+            }   
+        } 
     }
 
 
