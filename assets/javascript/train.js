@@ -69,6 +69,11 @@ database.ref().on("child_added", function(childSnapshot) {
     remainder = difference % frequency
     console.log("remainder: " + remainder)
 
+    //find untilNext
+    untilNext = frequency - remainder
+
+
+
 })
 
 }); //END document ready
