@@ -69,11 +69,28 @@ database.ref().on("child_added", function(childSnapshot) {
     remainder = difference % frequency
     console.log("remainder: " + remainder)
 
-    //find untilNext
-    untilNext = frequency - remainder
+    //find nextTrain time and time until the nextTrain 
+    firstTrainHour = moment(firstTrain, "HH:mm").hours()
+    console.log(firstTrainHour)
+    currentTimeHour = moment().hours()
+    console.log(currentTimeHour)
+    untilNextMinutes = frequency - remainder
+    untilNextHours = firstTrainHour - currentTimeHour
 
-    //find nextTrain
-    nextTrain = moment().add(untilNextMinutes,"m").format("HH:mm")
+    if (firstTrainHour > currentTimeHour){ //if the first train is after the current time
+        nextTrain = firstTrain
+        if (remainder > 0){
+        untilNext = ((untilNextHours - 1) + " hours(s) " + (60-remainder) + " min(s) ")
+
+        } else if (remainder = 0)
+        untilNext = (untilNextHours + "hour(s)")
+        
+    } else if (firstTrainHour < currentTimeHour){ //if the first train is before the current time
+        nextTrain = moment().add(untilNextMinutes,"m").format("HH:mm")
+        console.log("next train: " + nextTrain)
+        untilNext = frequency - remainder
+    }
+
 
     //Append values to html DOM
     $("#current-schedule-table").append("<tr><td id = 'new-train'>" + childSnapshot.val().trainName +
