@@ -75,12 +75,13 @@ database.ref().on("child_added", function(childSnapshot) {
     currentTimeHour = moment().hours()
     console.log(currentTimeHour)
     untilNextMinutes = frequency - remainder
+    console.log(untilNextMinutes)
     untilNextHours = firstTrainHour - currentTimeHour
 
     if (firstTrainHour > currentTimeHour){ //if the first train is after the current time
         nextTrain = firstTrain
         if (remainder > 0){
-        untilNext = ((untilNextHours - 1) + " hours(s) " + (60-remainder) + " min(s) ")
+        untilNext = ((untilNextHours - 1) + " hours(s) " + untilNextMinutes + " min(s) ")
 
         } else if (remainder = 0)
         untilNext = (untilNextHours + "hour(s)")

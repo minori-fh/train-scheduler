@@ -31,6 +31,10 @@ th {
 #add-train {
     height: 480px; 
 }
+
+#new-train {
+  text-align: center; 
+}
   
 .form-control {
 width: 975px; 
