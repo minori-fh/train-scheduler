@@ -65,6 +65,10 @@ database.ref().on("child_added", function(childSnapshot) {
     difference = moment(currentTime, "HH:mm").minutes() - moment(firstTrain, "HH:mm").minutes()
     console.log("difference: " + difference)
 
+    //find the remainder           
+    remainder = difference % frequency
+    console.log("remainder: " + remainder)
+
 })
 
 }); //END document ready
