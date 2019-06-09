@@ -70,26 +70,35 @@ database.ref().on("child_added", function(childSnapshot) {
     console.log("remainder: " + remainder)
 
     //find nextTrain time and time until the nextTrain 
-    firstTrainHour = moment(firstTrain, "HH:mm").hours()
-    console.log(firstTrainHour)
-    currentTimeHour = moment().hours()
-    console.log(currentTimeHour)
+    ftHour = moment(firstTrain, "HH:mm").hours()
+    ftMinutes = moment(firstTrain,"HH:mm").minutes()
+    console.log("ft hour " + ftHour)
+    console.log("ft minutes " + ftMinutes)
+
+    ctHour = moment().hours()
+    ctMinutes = moment().minutes()
+    console.log("ct hour " + ctHour)
+    console.log("ct minutes " + ctMinutes)
+
     untilNextMinutes = frequency - remainder
+    untilNextHours = ftHour - ctHour
     console.log(untilNextMinutes)
-    untilNextHours = firstTrainHour - currentTimeHour
 
-    if (firstTrainHour > currentTimeHour){ //if the first train is after the current time
-        nextTrain = firstTrain
-        if (remainder > 0){
-        untilNext = ((untilNextHours - 1) + " hours(s) " + untilNextMinutes + " min(s) ")
+    if (ftHour > ctHour){ //if the first train is after the current time
+        nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
 
-        } else if (remainder = 0)
+        if (ftMinutes < ctMinutes && ftMinutes === 0){
+        untilNext = ((untilNextHours - 1) + " hours(s) " + (60 - ctMinutes) + " min(s) ")
+        } else if (ftMinutes < ctMinutes && ftMinutes > 0){
+        untilNext = ((untilNextHours - 1) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
+        } else if (ftMinutes === ctMinutes){
         untilNext = (untilNextHours + "hour(s)")
+        };
+
         
-    } else if (firstTrainHour < currentTimeHour){ //if the first train is before the current time
-        nextTrain = moment().add(untilNextMinutes,"m").format("HH:mm")
-        console.log("next train: " + nextTrain)
-        untilNext = frequency - remainder
+    } else if (ftHour < ctHour){ //if the first train is before the current time
+        nextTrain = moment().add(untilNextMinutes,"minutes").format("hh:mm A")
+        untilNext = (frequency - remainder) + " min(s)"
     }
 
 
