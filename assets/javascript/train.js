@@ -74,12 +74,12 @@ database.ref().on("child_added", function(childSnapshot) {
     ftA = moment(firstTrain, "HH:mm A").format("A")
     console.log("ft hour " + ftHour)
     console.log("ft minutes " + ftMinutes)
-    console.log("ft A " + ftA)
+    console.log("ftA " + ftA)
 
-    ctHour = moment().hours()
+    ctHour = moment(currentTime, "HH:mm").hours()
     ctMinutes = moment().minutes()
     ctA = moment(currentTime, "HH:mm A").format("A")
-    console.log("ct A " + ctA)
+    console.log("ctA " + ctA)
     console.log("ct hour " + ctHour)
     console.log("ct minutes " + ctMinutes)
 
@@ -87,7 +87,7 @@ database.ref().on("child_added", function(childSnapshot) {
     untilNextHours = ftHour - ctHour
     console.log(untilNextMinutes)
     
-    if (ctA === "PM" && ftA === "PM"){
+    if (ctA === ftA){
         if (ftHour > ctHour){ //if the first train is after the current time
             nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
     
@@ -95,6 +95,10 @@ database.ref().on("child_added", function(childSnapshot) {
                 untilNext = ((untilNextHours - 1) + " hours(s) " + (60 - ctMinutes) + " min(s) ")
             } else if (ftMinutes < ctMinutes && ftMinutes > 0){
                 untilNext = ((untilNextHours - 1) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
+            } else if (ftMinutes > ctMinutes && ctMinutes === 0){
+                untilNext = (untilNextHours + " hour(s) " + ftMinutes + " minute(s) ")
+            } else if (ftMinutes > ctMinutes && ctMinutes > 0){
+                untilNext = (untilNextHours + " hour(s) " + (ftMinutes - ctMinutes) + " minute(s) ")
             } else if (ftMinutes === ctMinutes){
                 untilNext = (untilNextHours + "hour(s)")
             };
@@ -104,7 +108,6 @@ database.ref().on("child_added", function(childSnapshot) {
             untilNext = (frequency - remainder) + " min(s)"
         }
     } else if (ctA === "PM" && ftA === "AM"){
-        console.log("wtf")
         if (ftHour < ctHour){
             nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
             
@@ -114,8 +117,29 @@ database.ref().on("child_added", function(childSnapshot) {
                 untilNext = ((ftHour + (24 - ctHour - 1)) + " hour(s) " + (60 - ctMinutes) + " min(s) ")
             } else if (ftMinutes < ctMinutes && ftMinutes > 0){
                 untilNext = ((ftHour + (24 - ctHour - 1)) + " hour(s) " + (60 - ctMinutes + ftMinutes) + " min(s) ")
-            }   
+            } else if (ftMinutes > ctMinutes && ctMinutes === 0){
+                untilNext = ((ftHour + (24 - ctHour)) + " hour(s) " + ftMinutes + " minute(s) ")
+            } else if (ftMinutes > ctMinutes && ctMinutes > 0){
+                untilNext = ((ftHour + (24 - ctHour)) + " hour(s) " + (ftMinutes - ctMinutes) + " minute(s) ")
+            }
         } 
+    } else if (ctA === "AM" && ftA === "PM"){
+        if (ctHour < ftHour){
+            nextTrain = moment(firstTrain,"HH:mm").format("hh:mm A")
+            console.log("3")
+
+            if (ftMinutes === ctMinutes){
+                untilNext = ((ftHour - ctHour) + " hour(s) ")
+            } else if (ftMinutes < ctMinutes && ctMinutes > 0){
+                untilNext = ((ftHour - ctHour - 1) + " hour(s) " +((60 - ctMinutes) + ftMinutes) + " minute(s) ")
+            } else if (ftMinutes < ctMinutes && ctMinutes === 0){
+                untilNext = ((ftHour-ctHour) + " hour(s) " + ftMinutes + " minute(s) ")
+            } else if (ftMinutes > ctMinutes && ftMinutes > 0){
+                untilNext = ((ftHour - ctHour) + " hour(s) " +  (ftMinutes-ctMinutes) + " minute(s) ")
+            } else if (ftMinutes > ctMinutes && ftMinutes === 0){
+                untilNext = (((ftHour - ctHour) - 1) + " hour(s) " + (60 - ctMinutes) + " minute(s) ")
+            }
+        }
     }
 
     //Append values to html DOM
