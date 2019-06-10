@@ -1,3 +1,7 @@
+body {
+    background-image: url("../images/train.jpg");
+}
+
 #main-page {
     width: 100vw; 
     height: 100vh; 
