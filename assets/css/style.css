@@ -59,3 +59,8 @@ margin-left: 17px;
 #train-name-label {
 margin-top: 10px; 
 }
+
+#header {
+    font-size: 80px; 
+    text-align: center; 
+}
