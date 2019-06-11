@@ -9,8 +9,8 @@ Portion for user to input new train:
 ## Description of Site
 [Click here to visit site](https://minori-fh.github.io/train-scheduler/)
 
-A trivia game for the purpose of:  
-1. Practicing newly learned skills using AJAX to use APIs
+A train scheduler for the purpose of:
+1. Practicing newly learned skills in Firebase
 
 ## Technologies Used
 1. HTML 
